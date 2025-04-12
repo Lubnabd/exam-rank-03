@@ -1,0 +1,13 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "lldb",
+      "request": "launch",
+      "args": [],
+      "cwd": "/Users/lubnaabdelkhlaleq/Desktop/42AMMAN/EXAMS/exam_03/scanf",
+      "program": "/Users/lubnaabdelkhlaleq/Desktop/42AMMAN/EXAMS/exam_03/scanf/build/Debug/outDebug"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+🧠 What is scanf in C?
+
+scanf is the opposite of printf.
+printf prints formatted output to the screen.
+scanf reads formatted input from the user (from stdin, which is usually your keyboard).
+
+Example:
+
+int x;
+scanf("%d", &x);
+
+This waits for the user to type an integer, and stores it in the variable x.
+
+📚 Is it related to printf or get_next_line?
+
+✅ Related to ft_printf:
+Yes — because you're:
+
+Parsing a format string
+
+Using va_list to read variable arguments (va_start, va_arg, etc.)
+
+✅ Also related to get_next_line:
+Yes — because you're:
+
+Reading from input (stdin) character-by-character
+
+Handling buffering and newline behavior
+
+🔍 What do you need to focus on?
+
+2. Use va_list like in printf
+/////This is where you store values.
+
+3. Read from stdin safely
+
+Use fgetc(stdin) to get characters.
+
+Use ungetc(ch, stdin) to push a character back if you read too far.
+
+
+💡 Example Behavior
+
+int a;
+char b;
+char str[100];
+ft_scanf("%d %c %s", &a, &b, str);
+
+If the user types:
+42 X hello
+a = 42
+b = 'X'
+str = "hello"
+
+✅ Key Tools You'll Use
+Tool	What it does
+va_start	Start accessing variable arguments
+va_arg	Get next argument
+va_end	Clean up
+fgetc	Read one char from input
+ungetc	Push a char back into the input stream
+isspace	Check if a char is whitespace
+isdigit	Check if a char is a digit
+
+🧩 How This Project Helps You Grow
+You're learning how to:
+
+Parse complex input
+Interact with stdin directly
+Use variadic arguments
+Handle string processing, number parsing, and memory management
+Build a foundation for interactive shell-like programs (helps a lot in minishell)
+
+⛏️ What do you need to do inside?
+When you see a %d, you:
+
+Call va_arg(args, int*) to get the next pointer
+Read characters from stdin to build an integer
+Store that value into the pointer
+Same idea for %s and %c.
+
+🔁 Quick Example
+int a;
+char ch;
+char str[100];
+
+ft_scanf("%d %c %s", &a, &ch, str);
+If the user types:
+
+42 Z hello
+format = "%d %c %s"
+... = &a, &ch, str
+
+You must:
+Read 42, convert it to int, and store it in a
+Read Z and store it in ch
+Read hello and store it in str
+
+✅ What does it mean that stdin is buffered?
+When we say "stdin is buffered," it means:
+
+When you type something and press Enter, everything you typed gets stored temporarily in memory.
+
+This stored chunk is called a buffer — like a waiting room.
+
+Then functions like scanf() or fgetc() read from that buffer.
+
+🧠 Who owns that buffer?
+➡️ It’s managed automatically by the C standard library — not by you.
+
+So:
+You don’t allocate the buffer.
+You don’t free the buffer.
+The system takes care of it behind the scenes.
