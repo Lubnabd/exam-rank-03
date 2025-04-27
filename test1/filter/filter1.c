@@ -23,7 +23,7 @@ char *read_str(void) {
 	char *new_buf;
 	int bytes_read = 1;
 	int total_len = 0;
-
+	
 	buf = calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buf)
 		return (perror("Error"), NULL);
