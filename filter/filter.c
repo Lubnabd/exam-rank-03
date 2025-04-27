@@ -127,7 +127,6 @@ char	*filter(char *buffer, char *target, int buf_len)
 
 int	main(int argc, char **argv)
 {
-	int		num_bytes;
 	char	*result; // hello *****
 	char	*buffer; // hello world
 
