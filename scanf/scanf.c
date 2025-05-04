@@ -4,7 +4,7 @@
 //* This function skips spaces
 int match_space(FILE *f)
 {
-    int	c;
+    char	c;
 
 	c = fgetc(f);
 	while (c != EOF)
@@ -115,9 +115,9 @@ int scan_string(FILE *f, va_list ap)
 }
 
 // FROM HERE AND BELOW IS A GIVEN CODE NO NEED TO WRITE IT
-int	match_conv(FILE *f, const char **format, va_list ap)
+int	match_conv(FILE *f, const char *format, va_list ap)
 {
-	switch (**format)
+	switch (*format)
 	{
 		case 'c':
 			return scan_char(f, ap);
@@ -148,7 +148,7 @@ int ft_vfscanf(FILE *f, const char *format, va_list ap)
 		if (*format == '%')
 		{
 			format++;
-			if (match_conv(f, &format, ap) != 1)
+			if (match_conv(f, format, ap) != 1)
 				break;
 			else
 				nconv++;
@@ -182,6 +182,6 @@ int main(void)
 	int x;
 	char str[100];
 	char str2[100];
-	ft_scanf("%d,%s%s", &x, str, str2);
+	ft_scanf("%d..%s%s", &x, str, str2);
 	printf("%d %s %s\n", x, str, str2);
 }
