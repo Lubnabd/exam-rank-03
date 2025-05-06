@@ -1,105 +1,56 @@
-#include <unistd.h>
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-int ft_atoi(char *str)
+void	print_subset(int *subset, int size)
 {
-    int i = 0;
-    int res = 0;
-    int sig = 1;
+	int	i;
 
-    if (str[i] == '-' || str[i] == '+')
-    {
-        if (str[i] == '-')
-            sig *= -1;
-        i++;
-    }
-    while (str[i] && (str[i] >= '0' && str[i] <= '9'))
-    {
-        res = res * 10 + (str[i] - '0');
-        i++;
-    }
-    return (res * sig);
+	i = 0;
+	while (i < size)
+	{
+		if (i == size - 1)
+			printf("%d", subset[i]);
+		else
+			printf("%d ", subset[i]);
+		i++;
+	}
+	printf("\n");
 }
 
-int check_int(char **str, int ac)
+void	backtrack(int *set, int size, int index,
+				int *subset, int subset_size,
+				int current_sum, int target)
 {
-    int j = 1;
-    while (j < ac)
-    {
-        int i = 0;
-        if (str[j][i] == '-' || str[j][i] == '+')
-            i++;
-        while (str[j][i])
-        {
-            if (str[j][i] < '0' || str[j][i] > '9')
-                return 0;
-            i++;
-        }
-        j++;
-    }
-    return 1;
+	if (index == size)
+	{
+		if (current_sum == target)
+			print_subset(subset, subset_size);
+		return ; 
+	}
+	backtrack(set, size, index + 1, subset, subset_size, current_sum, target);
+	subset[subset_size] = set[index];
+	backtrack(set, size, index + 1, subset, subset_size + 1, current_sum + set[index], target);
+
 }
 
-void print_set(int *tab, int size)
+int	main(int argc, char **argv)
 {
-    int i = 0;
-    while (i < size)
-    {
-        printf("%d ", tab[i]);
-        i++;
-    }
-    printf("\n");
-}
+	int	set[argc - 2];
+	int	subset[argc - 2];
+	int i = 0;
+	int j = 2;
+	int	size = argc - 2;
+	int	target = atoi(argv[1]);
 
-void powerset(int *arr, int n, int target)
-{
-    int max = 1 << n; // 2^n subsets
-    int mask = 1;
+	if (argc < 3)
+		return (1);
 
-    while (mask < max)
-    {
-        int i = 0;
-        int sum = 0;
-        int *set = malloc(sizeof(int) * n);
-        int idx = 0;
-
-        while (i < n)
-        {
-            if ((mask >> i) & 1)
-            {
-                sum += arr[i];
-                set[idx] = arr[i];
-                idx++;
-            }
-            i++;
-        }
-
-        if (sum == target)
-            print_set(set, idx);
-
-        free(set);
-        mask++;
-    }
-}
-
-int main(int ac, char **av)
-{
-    if (ac < 3 || !check_int(av, ac))
-        return 1;
-
-    int target = ft_atoi(av[1]);
-    int n = ac - 2;
-
-    int *arr = malloc(sizeof(int) * n);
-    int i = 0;
-    while (i < n)
-    {
-        arr[i] = ft_atoi(av[i + 2]);
-        i++;
-    }
-
-    powerset(arr, n, target);
-    free(arr);
-    return 0;
+	while (j < argc)
+	{
+		set[i] = atoi(argv[j]);
+		i++;
+		j++;
+	}
+	backtrack(set, size, 0, subset, 0, 0, target);
 }
