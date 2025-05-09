@@ -19,7 +19,7 @@ void ft_swap(char *a, char *b)
     *b = tmp;
 }
 
-char *order(char *str)
+char *order(char *s)
 {
     int i = 0;
     int len = ft_strlen(s);
@@ -52,7 +52,7 @@ char *order(char *str)
     return (s);
 }
 
-int ft_strchr(const char *str, char c)
+int ft_strchr(const char *s, char c)
 {
     int i = 0;
     while (s[i])
@@ -91,11 +91,11 @@ int main (int argc , char ** argv)
 
     if (argc == 2)
     {
-        res = calloc(ft_strlen(argv[1], 1));
+        res = calloc(ft_strlen(argv[1]), 1);
         s = order(argv[1]);
         permutations(s, res, 0);
-        free(res;)
+        free(res);
     }
     else
-        return 1
+        return 1;
 }
