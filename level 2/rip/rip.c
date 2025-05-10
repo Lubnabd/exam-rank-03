@@ -24,14 +24,14 @@ int good_closed(char *str, int n)
     while (i < n)
     { // why not if else? and only if?
         if (str[i] == '(')
-            flag++; // why not opposite flag--?? i believe it is okay try it 
+            flag++;
         if (str[i] == ')')
             flag--;
-        if (flag == -1) // ?? why
+        if (flag == -1) // more ) than ( 
             return 0;
         i++;
     }
-    if (flag == 0) // true
+    if (flag == 0) // true all open brackets are matched
         return 1;
     return 0; // why did i do it twice?
 }
@@ -41,11 +41,8 @@ void check_rip(char *str, int n, int i, int *small, int lvl)
     char tmp;
     if (good_closed(str, n)) //??
     {
-        if (*small == -1)
+        if (*small == -1 || lvl < *small) //???
             *small = lvl;
-        else if (lvl < *small)
-            *small = lvl;
-    }
     while ( i < n)
     {
         tmp = str[i];
