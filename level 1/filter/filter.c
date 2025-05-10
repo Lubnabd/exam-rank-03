@@ -13,7 +13,7 @@ size_t ft_strlcat(char *dest, const char *src, size_t size)
 
     while (src[slen] != '\0')
         slen++;
-    while (dest[dlen] != '\0' && dlen < size) // why didn't we check the same in line 14?
+    while (dest[dlen] != '\0' && dlen < size) // why didn't we check the same in line 14? //because we're just measuring how long src
         dlen++;
     if (size <= dlen)
         return (size + slen);
@@ -26,7 +26,7 @@ size_t ft_strlcat(char *dest, const char *src, size_t size)
     return (dlen + slen);
 }
 
-char *read_input() // why doesn't it take arguments?
+char *read_input()
 {
     char tmp[BUFFER_SIZE + 1];
     char *buffer;
@@ -90,6 +90,7 @@ void fill_stars(char *res, int *res_i, int len)
         (*res_i)++;
         j++;
     }
+    //??
 }
 
 char *filter(char *buffer, char *target, int buf_len)
@@ -105,7 +106,7 @@ char *filter(char *buffer, char *target, int buf_len)
         return (NULL);
     while (buffer[i])
     {
-        matched = 0; // can i do this on line 100?
+        matched = 0; // can i do this on line 100? //You need to reset it on each iteration.
         if (ft_strncmp(&buffer[i], target, t_len) == 0)
         {
             fill_stars(res, &res_i, t_len);
@@ -133,7 +134,7 @@ int main (int argc , char **argv)
         if (!res)
         {
             perror("Error:allocation failed\n");
-            return (1); // why not null?
+            return (1);
         }
         printf("%s", res);
         free (res);
