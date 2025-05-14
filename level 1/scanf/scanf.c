@@ -20,25 +20,68 @@ int match_space(FILE *f)
     return (0);
 }
 
-int match_char(FILE *f, char c)
+int match_char(FILE *f, char c) // no need for a while loop here because the char is being checked only one time
 {
-    int i;
+    int ch;
 
-    //i = fgetc(f);
-    while ((i = fgetc(f)) != EOF)
-    {
-        if (!isdigit(i))
-        {
-            ungetc(i, f);
-            break;
-        }
-    if (i == c)
-        return 1;
-    }
+    ch = fgetc(f);
+	if (ch == c)
+		return 1;
+	if (ch != EOF)
+		ungetc(ch, f);
     return (0);
 }
 
 int scan_char(FILE *f, va_list ap)
+{
+    int c;
+    char *cp = va_arg(ap, char *);
+
+    c = fgetc(f);
+    if (c == EOF)
+        return 0;
+    *cp = (char)c;
+    return 1;
+}
+
+int scan_int(FILE *f, va_list ap)
+{
+    int i;
+    int *ip = va_arg(ap, int *);
+    int value = 0;
+    int sign = 1;
+
+    i = fgetc(f);
+    if (i == EOF)
+        return 0;
+    while (isspace(i))
+        i = fgetc(f);
+    if ( i == '-')
+    {
+        sign = -1;
+        i = fgetc(f);
+    }
+    else if (i == '+')
+        i = fgetc(f);
+
+    if (!isdigit(i))
+    {
+        ungetc(i, f);
+        return 0;
+    }
+    
+    while(isdigit(i))
+    {
+        value = value * 10 + (i - '0');
+        i = fgetc(f);
+    }
+    if (i != EOF)
+        ungetc(i, f);
+    *ip = value * sign;
+    return 1;
+}
+
+/*int scan_char(FILE *f, va_list ap)
 {
     int ch;
     char *cp; // where we should store the result
@@ -49,9 +92,9 @@ int scan_char(FILE *f, va_list ap)
     cp = va_arg(ap, char *); // but char * is a string?
     *cp = (char)ch;
     return 1; // character was read and stored
-}
+}*/
 
-int scan_int(FILE *f, va_list ap)
+/*int scan_int(FILE *f, va_list ap)
 {
     int ch;
     int value = 0;
@@ -84,11 +127,11 @@ int scan_int(FILE *f, va_list ap)
     ip = va_arg(ap, int *); // can i do it in line 59?
     *ip = value * sign;
     return 1;
-}
+}*/
 
 int scan_string(FILE *f, va_list ap)
 {
-    int ch;
+    int ch; // here i need a counter because it is a string so its not a one time thing
     char *sp = va_arg(ap, char *);
     int i = 0;
 
@@ -107,10 +150,8 @@ int scan_string(FILE *f, va_list ap)
     if (ch != EOF)
         ungetc(ch, f);
     sp[i] = '\0';
-    if (i > 0) //??
-        return (1);
-    else
-        return (0);
+
+    return (1);
 }
 
 int match_conv(FILE *f, const char **format, va_list ap)
