@@ -1,12 +1,5 @@
 #include "rip.h"
 
-// test the last case in the subject 
-/*_ ( ) _ ( ) _$
-_ ( ) ( _ ) _$
-( _ ) _ ( ) _$
-( _ ) ( _ ) _$
-( ( ) _ _ ) _$*/
-
 int	ft_strlen(char *s)
 {
 	int	len;
@@ -22,12 +15,12 @@ int good_closed(char *str, int n)
     int i = 0;
     int flag = 0;
     while (i < n)
-    { // why not if else? and only if?
+    {
         if (str[i] == '(')
             flag++;
-        if (str[i] == ')')
+        else if (str[i] == ')')
             flag--;
-        if (flag == -1) // more ) than ( 
+        if (flag == -1) // more ) than (
             return 0;
         i++;
     }
@@ -39,10 +32,12 @@ int good_closed(char *str, int n)
 void check_rip(char *str, int n, int i, int *small, int lvl)
 {
     char tmp;
+
     if (good_closed(str, n)) //??
     {
         if (*small == -1 || lvl < *small) //???
             *small = lvl;
+    }
     while ( i < n)
     {
         tmp = str[i];

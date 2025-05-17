@@ -5,7 +5,7 @@
 #include <unistd.h>
 #define BUFFER_SIZE 10
 
-size_t ft_strlcat(char *dest, const char *src, size_t size)
+size_t ft_strlcat(char *dest, const char *src, size_t size) // learn how to read the man in case you forgot in the exam 
 {
     size_t i = 0;
     size_t dlen = 0;
@@ -13,25 +13,25 @@ size_t ft_strlcat(char *dest, const char *src, size_t size)
 
     while (src[slen] != '\0')
         slen++;
-    while (dest[dlen] != '\0' && dlen < size) // why didn't we check the same in line 14? //because we're just measuring how long src
+    while (dest[dlen] != '\0' && dlen < size) // why didn't we check the same in line 14? //because we're just measuring how long src is
         dlen++;
     if (size <= dlen)
-        return (size + slen);
-    while (src[i] != '\0' && i < size - dlen - 1)
+        return (size + slen); //?
+    while (src[i] != '\0' && i < size - dlen - 1) // why do i first check dlen the slen ?
     {
-        dest[dlen + 1] = src[i];
+        dest[dlen + 1] = src[i]; //??
         i++;
     }
-    dest[dlen + i] = '\0';
+    dest[dlen + i] = '\0'; //??
     return (dlen + slen);
 }
 
-char *read_input()
+char *read_input() // it always read from stdin thats why it takes no parameters 
 {
-    char tmp[BUFFER_SIZE + 1];
+    char tmp[BUFFER_SIZE + 1]; // temporary buffer to read small chunks // why not *tmp?
     char *buffer;
     char *new_buffer;
-    int bytes_read = 1;
+    int bytes_read = 1; //??
     int total_len = 0;
 
     buffer = calloc(BUFFER_SIZE + 1, 1);
@@ -42,16 +42,17 @@ char *read_input()
     }
     while (bytes_read > 0)
     {
-        bytes_read = read(0, tmp, BUFFER_SIZE);
-        if (bytes_read == -1)
+        bytes_read = read(0, tmp, BUFFER_SIZE); // what read take?
+        if (bytes_read == -1) //?
         {
             free(buffer);
-            perror ("Erro: read failed\n");
+            perror ("Error: read failed\n");
             return (NULL);
         }
-        tmp[bytes_read] = '\0';
+        tmp[bytes_read] = '\0'; //??
         total_len = total_len + bytes_read;
         new_buffer = realloc(buffer, total_len + 1); //??
+
         if (!new_buffer)
         {
             free(buffer);
@@ -127,7 +128,7 @@ int main (int argc , char **argv)
 
     if (argc == 2) // should't we check || argv[1][0] != '\0' ?
     {
-        buffer = read_input();
+        buffer = read_input(); // why didn't i check before line 130 if argv[1] != '\0'
         if (!buffer)
             return (1);
         res = filter(buffer, argv[1], strlen(buffer));
