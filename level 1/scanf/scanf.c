@@ -38,8 +38,8 @@ int scan_char(FILE *f, va_list ap)
     char *cp = va_arg(ap, char *);
 
     c = fgetc(f);
-    if (c == EOF)
-        return 0;
+    if (c == EOF) //  we do if condition for one time only because it is only 1 char that is being checked
+        return 0; // failed to read
     *cp = (char)c;
     return 1;
 }
@@ -47,7 +47,7 @@ int scan_char(FILE *f, va_list ap)
 int scan_int(FILE *f, va_list ap)
 {
     int i;
-    int *ip = va_arg(ap, int *);
+    int *ip = va_arg(ap, int *); // always in the scan function you need a pointer to the thing in the function (int, char, string)
     int value = 0;
     int sign = 1;
 
@@ -69,7 +69,6 @@ int scan_int(FILE *f, va_list ap)
         ungetc(i, f);
         return 0;
     }
-    
     while(isdigit(i))
     {
         value = value * 10 + (i - '0');
@@ -80,54 +79,6 @@ int scan_int(FILE *f, va_list ap)
     *ip = value * sign;
     return 1;
 }
-
-/*int scan_char(FILE *f, va_list ap)
-{
-    int ch;
-    char *cp; // where we should store the result
-
-    ch = fgetc(f);
-    if (ch == EOF) // we do if condition for one time only because it is only 1 char that is being checked
-        return 0; // failed to read
-    cp = va_arg(ap, char *); // but char * is a string?
-    *cp = (char)ch;
-    return 1; // character was read and stored
-}*/
-
-/*int scan_int(FILE *f, va_list ap)
-{
-    int ch;
-    int value = 0;
-    int sign = 1;
-    int *ip; // always in the scan function you need a pointer to the thing in the function (int, char, string)
-
-    ch = fgetc(f);
-    while (isspace(ch))
-        ch = fgetc(f); // move to the next
-    if (ch == '-')
-    {
-        sign = -1;
-        ch = fgetc(f);
-    }
-    else if (ch == '+')
-        ch = fgetc(f);
-    if (!isdigit(ch))
-    {
-        if (ch != EOF)
-            ungetc(ch, f);
-        return (0);
-    }
-    while (isdigit(ch))
-    {
-        value = value * 10 + (ch - '0');
-        ch = fgetc(f);
-    }
-    if (ch != EOF)
-        ungetc(ch, f); // why not fgetc?
-    ip = va_arg(ap, int *); // can i do it in line 59?
-    *ip = value * sign;
-    return 1;
-}*/
 
 int scan_string(FILE *f, va_list ap)
 {
