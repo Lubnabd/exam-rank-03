@@ -35,7 +35,7 @@ char *read_input()
     int bytes_read = 1; //??
     int total_len = 0;
 
-    buffer = calloc (BUFFER_SIZE + 1, 1);
+    buffer = calloc(BUFFER_SIZE + 1, 1);
     if (!buffer)
     {
         perror("Error: calloc failed\n");
@@ -45,16 +45,16 @@ char *read_input()
     while (bytes_read > 0) // why do i check bytes read ?
     {
         bytes_read = read(0, tmp, BUFFER_SIZE); // why buffer size?
-        if (bytes_read == -1) //??
+        if (bytes_read == -1)
         {
             free(buffer); // why do i free the buffer here? not before line 12?
             perror ("Error: read failed\n");
             return (NULL);
         }
-        tmp[bytes_read] = '\0'; //??
+        tmp[bytes_read] = '\0';
         total_len = total_len + bytes_read;
 
-        new_buffer = realloc(buffer, total_len + 1); // what does realloc take?
+        new_buffer = realloc(buffer, total_len + 1);
         if (!new_buffer)
         {
             free(buffer); // why?
@@ -98,17 +98,21 @@ void fill_stars(char *res, int *res_i, int len)
 char *filter(char *buffer, char *target, int buf_len)
 {
     char *res;
+    int matched;
     int i =0;
     int res_i = 0;
-    int matched;
     int t_len = strlen(target);
 
     res = malloc(buf_len + 1);
     if (!res)
+    {
+        perror("Error: malloc failed\n");
         return (NULL);
+    }
+
     while (buffer[i])
     {
-        matched = 0; // can i do this on line 100? //You need to reset it on each iteration.
+        matched = 0;
         if (ft_strncmp(&buffer[i], target, t_len) == 0)
         {
             fill_stars(res, &res_i, t_len);
