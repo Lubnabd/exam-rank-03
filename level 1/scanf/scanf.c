@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <stdarg.h>
-#include <ctype.h>
+#include <stdarg.h> // for va_list
+#include <ctype.h> // for isdigit, isspace
 #include <unistd.h>
 
 int match_space(FILE *f)
@@ -26,11 +26,17 @@ int match_char(FILE *f, char c) // no need for a while loop here because the cha
 
     ch = fgetc(f);
 	if (ch == c)
-		return 1;
+		return 1; // why not fgetc?
 	if (ch != EOF)
 		ungetc(ch, f);
     return (0);
 }
+/*if (ch != EOF)
+    {
+        if ( c == ch)
+            return 1;
+    }
+    ungetc(c, f);*/
 
 int scan_char(FILE *f, va_list ap)
 {
@@ -40,7 +46,7 @@ int scan_char(FILE *f, va_list ap)
     c = fgetc(f);
     if (c == EOF) //  we do if condition for one time only because it is only 1 char that is being checked
         return 0; // failed to read
-    *cp = (char)c;
+    *cp = (char)c; // wy did we do the casting?
     return 1;
 }
 
@@ -54,8 +60,9 @@ int scan_int(FILE *f, va_list ap)
     i = fgetc(f);
     if (i == EOF)
         return 0;
-    while (isspace(i))
+    while (isspace(i)) // why while?
         i = fgetc(f);
+
     if ( i == '-')
     {
         sign = -1;
@@ -64,7 +71,7 @@ int scan_int(FILE *f, va_list ap)
     else if (i == '+')
         i = fgetc(f);
 
-    if (!isdigit(i))
+    if (!isdigit(i)) // why not while?
     {
         ungetc(i, f);
         return 0;
@@ -91,10 +98,11 @@ int scan_string(FILE *f, va_list ap)
         ch = fgetc(f);
     if (ch == EOF)
         return (0); // why not ungetc?
+
     do
     {
-        sp[i] = ch;
-            i++;
+        sp[i] = ch; //??
+        i++;
         ch = fgetc(f); // why do keep doing this?
     } while (ch != EOF && !isspace(ch));
 
@@ -160,6 +168,7 @@ int ft_vfscanf(FILE *f, const char *format, va_list ap)
 int ft_scanf(const char *format, ...)
 {
 	va_list ap;
+
     va_start (ap, format);
 	int ret = ft_vfscanf(stdin, format, ap);
 	va_end(ap);
