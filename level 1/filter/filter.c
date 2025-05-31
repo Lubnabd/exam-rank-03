@@ -1,8 +1,33 @@
-// valgrind? // how can i debug the code?
+#include <unistd.h> // read
+#include <errno.h> // for perror
+#include <stdio.h> // printf
+#include <stdlib.h> // malloc, calloc, realloc, free
+#include <string.h> // for strlen
 
-#ifndef // do i need to mention it?
 # define BUFFER_SIZE 42
-#endif
+
+size_t ft_strlcat (char *dest, const char *src, size_t size)
+{
+	size_t i = 0;
+	size_t dlen = 0;
+	size_t slen = 0;
+
+	while (src[slen] != '\0')
+		slen++;
+	while (dest[dlen] != '\0')
+		dlen++;
+	
+	if (size <= dlen)
+		return (size + slen);
+	
+	while (src[i] && i < size - dlen - 1)
+	{
+		dest[dlen + i] = src[i];
+		i++;
+	}
+	dest[dlen + i] = '\0';
+	return (dlen + slen);
+}
 
 char *read_input()
 {
@@ -12,7 +37,7 @@ char *read_input()
 	int bytes_read = 1; // To store how many bytes we read in each loop
 	char tmp[BUFFER_SIZE + 1]; // why not *tmp? // A temporary container to store each chunk we read
 
-	buffer = calloc(BUFFER_SIZE + 1);
+	buffer = calloc(BUFFER_SIZE + 1, 1);
 	if (!buffer)
 	{
 		perror("Error: calloc failed");
@@ -48,27 +73,34 @@ char *read_input()
 It concatenates (tmp) to the end of (buffer) safely, not overflowing.
 Think of it like pouring the contents of the small bucket (tmp) into the big box (buffer) without spilling.*/
 
-size_t ft_strlcat (char *dest, const char*src, size_t size)
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
-	size_t i = 0;
-	size_t dlen = 0;
-	size_t slen = 0;
+	size_t		t;
+	size_t		i;
 
-	while (src[slen] != '\0')
-		slen++;
-	while (dest[dlen] != '\0')
-		dlen++;
-	
-	if (size <= dlen)
-		return (size + slen);
-	
-	while (src[i] && i < size - dlen - 1)
+	i = 0;
+	while (i < n && (s1[i] != '\0' || s2[i] != '\0'))
 	{
-		dest[dlen + i] = src[i];
-		i++;
+		t = (unsigned char)s1[i] - (unsigned char)s2[i];
+		if (t == 0)
+			i++;
+		else
+			return (t);
 	}
-	dest[dlen + i] = '\0';
-	return (dlen + slen);
+	return (0);
+}
+
+void	fill_stars(char *res, int *res_i, int len)
+{
+	int	j;
+
+	j = 0;
+	while (j < len)
+	{
+		res[*res_i] = '*';
+		(*res_i)++;
+		j++;
+	}
 }
 
 char *filter(char *buffer, char *target, int buf_len)
@@ -83,13 +115,13 @@ char *filter(char *buffer, char *target, int buf_len)
 	if (!res)
 	{
 		// can i free buffer here?
-		perror("error malloc failed");
+		perror("error malloc failed"); //??
 		return (NULL);
 	}
 	while (buffer[i])
 	{
 		matched = 0;
-		if (ft_strncmp(&buffer[i], target, t_len == 0)) // what does it do and what the point of == 0? //Do the next t_len characters starting from buffer[i] match the target?
+		if (ft_strncmp(&buffer[i], target, t_len) == 0) // what does it do and what the point of == 0? //Do the next t_len characters starting from buffer[i] match the target?
 		{
 			fill_stars(res, &res_i, t_len);
 			i = i + t_len; //?
@@ -117,6 +149,14 @@ int main (int argc , char **argv)
 			return (1); // why 1?
 		
 		res = filter(buffer, argv[1], strlen(buffer));
+		if (!res)
+		{
+			perror("Error: allocation failed\n");
+			return (1);
+		}
+		printf("%s", res);
+		free (res);
+		free(buffer);
 	}
-	return 1; // 1 and not 0
+	return 1; // not 0??
 }
