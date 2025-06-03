@@ -99,8 +99,10 @@ int	main(int ac, char **av)
 
 	if (ac != 2)
 		return 1;
-	res = calloc(ft_strlen(av[1]), 1);
+	// cab
+	res = calloc(ft_strlen(av[1]), 1);// [\0][\0][\0]
 	s = order(av[1]);
+	//s = abc
 	permutations(s, res, 0);
 	free(res);
 }

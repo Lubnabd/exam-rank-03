@@ -179,9 +179,9 @@ int ft_scanf(const char *format, ...)
 
 int main(void)
 {
-	int x;
+	//int x;
 	char str[100];
 	char str2[100];
-	ft_scanf("%d..%s%s", &x, str, str2);
-	printf("%d %s %s\n", x, str, str2);
+	ft_scanf("%s %s", str, str2);
+	printf("/%s %s\n", str, str2);
 }

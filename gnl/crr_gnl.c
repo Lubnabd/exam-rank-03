@@ -1,18 +1,18 @@
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
 
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 5
 #endif
 
 int	ft_strlen(char *s)
 {
-	int i = 0;
-	while (s && s[i])
-		i++;
-	return (i);
+	int	len;
+
+	len = 0;
+	while (s[len])
+		len++;
+	return (len);
 }
 
 int	ft_strchr(const char *s, char c)
@@ -31,87 +31,183 @@ int	ft_strchr(const char *s, char c)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int len1 = ft_strlen(s1), len2 = ft_strlen(s2), i = 0, j = 0;
-	char *res = malloc(len1 + len2 + 1);
+	char	*res;
+	int		len1;
+	int		len2;
+	int		i;	//strlcpy
+	int		j;	//strlcat
 
-	if (!res) return (free(s1), NULL);
-	while (i < len1)
-		res[i++] = *s1++;
-	while (j < len2)
-		res[i++] = *s2++;
+	if (!s1 || !s2)
+		return (NULL);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	res = malloc(len1 + len2 + 1);
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (s1[i])
+	{
+		res[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+		res[i++] = s2[j++];
 	res[i] = '\0';
-	return (res - len1); // adjust pointer since s1 was incremented
+	return (res);
 }
 
-char	*set_line(char *buf)
+char	*set_next(char *buffer)
 {
-	int i = 0;
-	while (buf[i] && buf[i] != '\n') i++;
-	char *line = malloc(i + (buf[i] == '\n') + 1);
-	if (!line) return NULL;
-	for (int j = 0; j <= i; j++)
-		line[j] = buf[j];
-	line[i + (buf[i] == '\n')] = '\0';
-	return line;
+	char	*line;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (buffer[i] != '\0' && buffer[i] != '\n')
+		i++;
+	if (buffer[i] == '\n')
+		i++;
+	if (!buffer[i])
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	line = malloc(ft_strlen(buffer) - i + 1);
+	if (!line)
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	j = 0;
+	while (buffer[i] != '\0')
+		line[j++] = buffer[i++];
+	line[j] = '\0';
+	free(buffer);
+	return (line);
 }
 
-char	*set_next(char *buf)
+char	*set_line(char *buffer)
 {
-	int i = 0, j = 0;
-	while (buf[i] && buf[i] != '\n') i++;
-	if (!buf[i]) return (free(buf), NULL);
-	char *next = malloc(ft_strlen(buf + i + 1) + 1);
-	if (!next) return (free(buf), NULL);
-	while (buf[++i])
-		next[j++] = buf[i];
-	next[j] = '\0';
-	free(buf);
-	return next;
+	char	*line;
+	int		i;
+	int		j;
+
+	i = 0;
+	if (!buffer[i])
+		return (NULL);
+	while (buffer[i] != '\0' && buffer[i] != '\n')
+		i++;
+	line = malloc(i + 2);
+	if (!line)
+		return (NULL);
+	j = 0;
+	while (j < i + 2)    //calloc   "hghkdllkdklkjg\0\0"   
+		line[j++] = '\0';
+	i = 0;
+	while (buffer[i] != '\0' && buffer[i] != '\n')
+	{
+		line[i] = buffer[i];
+		i++;
+	}
+	if (buffer[i] != '\0' && buffer[i] == '\n')
+		line[i] = '\n';
+	return (line);
+}
+
+char	*join_str(char *buffer, char *buf, int byte_read)
+{
+	char	*temp;
+
+	if (byte_read == -1)
+	{
+		free(buffer);
+		buffer = NULL;
+		free(buf);
+		return (NULL);
+	}
+	buf[byte_read] = '\0';
+	temp = ft_strjoin(buffer, buf);
+	if (!temp)
+	{
+		free(buffer);
+		buffer = NULL;
+		free(buf);
+		return (NULL);
+	}
+	free(buffer);
+	return (temp);
 }
 
 char	*read_file(int fd, char *res)
 {
-	char *buf = malloc(BUFFER_SIZE + 1);
-	int br = 1;
+	char	*buffer;
+	int		byte_read;
 
-	if (!buf) return free(res), NULL;
-	while (br > 0 && !ft_strchr(res, '\n'))
+	if (!res)
 	{
-		br = read(fd, buf, BUFFER_SIZE);
-		if (br <= 0) break;
-		buf[br] = '\0';
-		char *tmp = ft_strjoin(res, buf);
-		if (!tmp) return free(buf), NULL;
-		free(res);
-		res = tmp;
+		res = malloc(1);
+		res[0] = '\0';
 	}
-	free(buf);
-	return (br < 0 ? free(res), NULL : res);
+	if (!res)
+		return (NULL);
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+	{
+		free (res);
+		return (NULL);
+	}
+	byte_read = 1;
+	while (byte_read > 0)
+	{
+		byte_read = read(fd, buffer, BUFFER_SIZE);
+		res = join_str(res, buffer, byte_read);
+		if (!res)
+			return (NULL);
+		if (ft_strchr(buffer, '\n'))
+			break;
+	}
+	free (buffer);
+	return (res);
 }
 
 char	*get_next_line(int fd)
 {
-	static char *buffer;
-	char *line;
+	static char	*buffer;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
-		return NULL;
+		return (NULL);
 	buffer = read_file(fd, buffer);
-	if (!buffer) return NULL;
+	if (!buffer)
+		return (NULL);
 	line = set_line(buffer);
 	buffer = set_next(buffer);
-	return line;
+	if (!line)
+	{
+		free(buffer);
+		buffer = NULL;
+		return (NULL);
+	}
+	return (line);
 }
+
+#include <stdio.h>
+#include <fcntl.h>
 
 int main(void)
 {
-	int fd = open("file.txt", O_RDONLY);
-	char *line;
+	char *s = NULL;
+	int	fd;
 
-	while ((line = get_next_line(fd)))
+	fd = open("file.txt", O_RDONLY);
+	s = get_next_line(fd);
+	while (s)
 	{
-		printf("%s", line);
-		free(line);
+		printf("%s", s);
+		free(s);
+		s = get_next_line(fd);
 	}
-	close(fd);
 }
