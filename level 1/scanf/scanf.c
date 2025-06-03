@@ -1,7 +1,6 @@
-#include <stdio.h>
+#include <stdio.h> // fgetc, ungetc
 #include <stdarg.h> // va_list
 #include <ctype.h> // isdigit , isspace
-#include <unistd.h>
 
 int match_space(FILE *f)
 {
