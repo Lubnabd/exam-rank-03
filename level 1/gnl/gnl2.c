@@ -1,5 +1,13 @@
 #include "gnl.h"
 
+int ft_strlen(char *s)
+{
+    int i = 0;
+    while (s[i])
+        i++;
+    return (i);
+}
+
 // joins two strings together before \n
 char *ft_strjoin(char *s1, char *s2)
 {
@@ -26,7 +34,11 @@ char *ft_strjoin(char *s1, char *s2)
     }
     j = 0;
     while (s2[j])
-        res[i++] = s2[j++]; //??
+	{
+		res[i] = s2[j];
+		i++;
+		j++;
+	}
     res[i] = '\0';
     return (res);
 }
@@ -39,6 +51,7 @@ char *join_str(char *res, char *buffer)
     if (!tmp)
     {
         free(res);
+        res = NULL; //not sure?
         return (NULL);
     }
     free(res);
@@ -74,6 +87,7 @@ char *read_line(int fd, char *res) // res holds what was read so far // it reads
     if (!buffer)
     {
         free(res);
+        res = NULL;
         return (NULL);
     }
 
@@ -137,14 +151,6 @@ char *set_line (char *buffer) // buffer is static
     return (line);
 }
 
-int ft_strlen(char *s)
-{
-    int i = 0;
-    while (s[i])
-        i++;
-    return (i);
-}
-
 char *set_next(char *buffer)
 {
     char *line;
@@ -153,10 +159,12 @@ char *set_next(char *buffer)
 
     if (!buffer)
         return (NULL);
+
     while (buffer[i] && buffer[i] != '\n')
         i++;
     if(buffer[i] == '\n')
         i++;
+
     if (!buffer[i])
     {
         free(buffer);
@@ -218,6 +226,3 @@ int main(void)
 	close(fd);
 	return 0;
 }
-
-// read again the difference between malloc and calloc //
-// how to test with valgrind //
