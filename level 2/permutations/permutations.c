@@ -1,4 +1,4 @@
-#include "perm.h"
+#include "permutations.h"
 
 int ft_strlen(char *s)
 {
@@ -15,6 +15,18 @@ void ft_swap(char *a, char *b)
     t = *a;
     *a = *b;
     *b = t;
+}
+
+int ft_strchr(const char *s, char c)
+{
+    int i = 0;
+    while (s[i])
+    {
+        if (s[i] == c)
+            return 1;
+        i++;
+    }
+    return 0;
 }
 
 char *order(char *s)
@@ -39,18 +51,6 @@ char *order(char *s)
         }
     }
     return (s);
-}
-
-int ft_strchr(const char *s, char c)
-{
-    int i = 0;
-    while (s[i])
-    {
-        if (s[i] == c)
-            return 1;
-        i++;
-    }
-    return 0;
 }
 
 void permutations(char *s, char *res, int pos)

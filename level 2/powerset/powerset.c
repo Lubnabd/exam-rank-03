@@ -18,7 +18,7 @@ void print_subset(int *subset, int size)
 
 void backtrack(int *set, int *subset, int size, int index, int sub_size, int current_sum, int target, int *found)
 {
-    if (index == size)
+    if (index == size) // 0 because goes from 0 to size - 1
     {
         if (current_sum == target)
         {
@@ -28,25 +28,26 @@ void backtrack(int *set, int *subset, int size, int index, int sub_size, int cur
         return ;
     }
     backtrack(set, subset, size, index + 1, sub_size, current_sum, target, found);
-    subset[sub_size] = set[index];
+    subset[sub_size] = set[index];  // Add the number to the current subset
     backtrack(set, subset, size, index + 1, sub_size + 1, current_sum + set[index], target, found);
+    // You're adding an element to the subset → sub_size increases
 }
 
 int main (int argc , char **argv)
 {
-    int set[argc - 2]; // after we do the atoi
+    int set[argc - 2];
     int subset[argc - 2];
     int i = 0;
     int j = 2;
     int size = argc - 2;
     int target = atoi(argv[1]);
-    int found = 0;
+    int found = 0; /////////
 
    if (argc > 2)
     {
         while ( j < argc)
         {
-            set[i] = atoi(argv[j]);
+            set[i] = atoi(argv[j]); // Fill the set array with numbers from the command line
             i++;
             j++;
         }
