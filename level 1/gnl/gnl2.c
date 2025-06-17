@@ -134,12 +134,12 @@ char *set_line (char *buffer) // buffer is static
     if (!line)
         return (NULL);
 
-    j = 0;
+    /*j = 0;
     while ( j < i + 2)
     {
         line[j] = '\0';
         j++;
-    }
+    }*/
     i = 0;
     while (buffer[i] && buffer[i] != '\n')
     {
@@ -159,7 +159,6 @@ char *set_next(char *buffer)
 
     if (!buffer)
         return (NULL);
-
     while (buffer[i] && buffer[i] != '\n')
         i++;
     if(buffer[i] == '\n')
@@ -193,10 +192,10 @@ char *get_next_line(int fd) // it reads from fd
 
     if (fd < 0 || BUFFER_SIZE <= 0)
         return (NULL);
-    
     buffer = read_line(fd, buffer);
     if (!buffer)
         return (NULL);
+
     line = set_line(buffer);
     if (!line)
     {
