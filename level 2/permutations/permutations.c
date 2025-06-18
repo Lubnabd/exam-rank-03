@@ -55,6 +55,7 @@ char *order(char *s)
 
 void permutations(char *s, char *res, int pos)
 {
+    
     int i = 0;
     if (res && (ft_strlen(res) == ft_strlen(s)))
     {
@@ -91,4 +92,3 @@ int main (int argc , char **argv)
         return 1;
 }
 
-// test with valgrind

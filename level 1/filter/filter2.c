@@ -39,40 +39,39 @@ void ft_filter(char *buffer, const char *target)
     }
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-    char buffer[BUFFER_SIZE];
-    char *input = NULL;
-    char *temp;
+    char temp[BUFFER_SIZE];
+    char *res = NULL;
+    char *buffer;
     int total_read = 0;
     ssize_t bytes;
 
     if (argc != 2 || argv[1][0] == '\0')
         return 1;
-
-    while ((bytes = read(0, buffer, BUFFER_SIZE)) > 0)
+    while ((bytes = read(0, temp, BUFFER_SIZE)) > 0)
     {
-        temp = realloc(input, total_read + bytes + 1);
-        if (!temp)
+        buffer = realloc(res, (total_read + bytes + 1));
+        if (!buffer)
         {
-            free(input);
+            free(res);
             perror("realloc");
             return (1);
         }
-        input = temp;
-        memmove(input + total_read, buffer, bytes);
+        res = buffer;
+        memmove((res + total_read), temp, bytes);
         total_read = total_read + bytes;
-        input[total_read] = '\0';
+        res[total_read] = '\0';
     }
 
     if (bytes < 0)
     {
         perror("read");
-        free(input);
+        free(res);
         return (1);
     }
 
-    ft_filter(input, argv[1]);
-    free(input);
+    ft_filter(res, argv[1]);
+    free(res);
     return (0);
 }

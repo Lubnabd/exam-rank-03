@@ -1,4 +1,9 @@
-# define BUFFER_SIZE 42
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <fcntl.h>
+
+# define BUFFER_SIZE 100
 
 int ft_strlen(char *s)
 {
@@ -91,8 +96,8 @@ char *read_line(int fd, char *res)
         if (bytes_read == -1)
         {
             free(res);
-            free(buffer);
             res = NULL;
+         free(buffer);
             return (NULL);
         }
         buffer[bytes_read] = '\0';
@@ -102,7 +107,7 @@ char *read_line(int fd, char *res)
             free(buffer);
             return (NULL);
         }
-        if (strchr(buffer, '\n')) /******** */
+        if (ft_strchr(buffer, '\n')) /******** */
             break ; /********** */
     }
     free(buffer); //////here we put it
@@ -124,6 +129,12 @@ char *set_line(char *buffer)
     if (!line)
         return (NULL);
     
+    while ( j < i + 2)
+    {
+            line[j] = '\0';
+            j++;
+    }
+ i = 0; ///*********** */ very important to set it to 0 again 
     while (buffer[i] && buffer[i] != '\n')
     {
         line[i] = buffer[i];
@@ -146,25 +157,24 @@ char *set_next(char *buffer)
         i++;
     if (buffer[i] == '\n')
         i++;
-
-
     if (!buffer[i])
     {
         free(buffer);
         buffer = NULL;
         return (NULL);
     }
-    line = malloc (ft_strlen(buffer) - i + 1);
+    line = malloc (ft_strlen(buffer) - i + 1); ////////////
     if (!line)
     {
         free(buffer);
         buffer = NULL;
         return (NULL);
     }
-    j = 0;
+    j = 0; //////////////
     while (buffer[i])
         line[j++] = buffer[i++];
     line[j] = '\0';
+    free(buffer);/////////
     return (line);
 }
 
@@ -187,5 +197,21 @@ char *get_next_line(int fd)
         return (NULL);
     }
     buffer = set_next (buffer); // buffer = not line =
-    return (buffer);
+    return (line);
+}
+
+int main (void)
+{
+    int fd = open("test.txt", O_RDONLY);
+    char *line = get_next_line(fd);
+
+    if (fd < 0)
+        return (1);
+    while (line)
+    {
+        printf("%s", line);
+        free(line);
+        line = get_next_line(fd);
+    }
+    close(fd);
 }

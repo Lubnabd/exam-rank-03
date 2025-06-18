@@ -10,13 +10,13 @@ void print_subset(int *subset, int size)
         if ( i == size - 1)
             printf("%d", subset[i]);
         else
-            printf("%d ", subset[i]);
+            printf("%d ", subset[i]); 
         i++;
     }
     printf("\n");
 }
 
-void backtrack(int *set, int *subset, int size, int index, int sub_size, int current_sum, int target, int *found)
+void backtrack(int *set, int *subset, int size,int sub_size, int index, int current_sum, int target, int *found)
 {
     if (index == size) // 0 because goes from 0 to size - 1
     {
@@ -27,9 +27,9 @@ void backtrack(int *set, int *subset, int size, int index, int sub_size, int cur
         }
         return ;
     }
-    backtrack(set, subset, size, index + 1, sub_size, current_sum, target, found);
+    backtrack(set, subset, size, sub_size, index + 1,  current_sum, target, found);
     subset[sub_size] = set[index];  // Add the number to the current subset
-    backtrack(set, subset, size, index + 1, sub_size + 1, current_sum + set[index], target, found);
+    backtrack(set, subset, size, sub_size + 1, index + 1, current_sum + set[index], target, found);
     // You're adding an element to the subset → sub_size increases
 }
 
@@ -41,7 +41,7 @@ int main (int argc , char **argv)
     int j = 2;
     int size = argc - 2;
     int target = atoi(argv[1]);
-    int found = 0; /////////
+    int found = 0; 
 
    if (argc > 2)
     {

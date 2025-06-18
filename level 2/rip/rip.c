@@ -53,9 +53,9 @@ void rip(char *str, int n, int i, int small, int lvl)
 {
     char tmp;
 
-    if (lvl > small)
+    if (small < lvl) 
         return ;
-    if (good_closed(str, n) && lvl == small)
+    if (good_closed(str, n) && lvl == small) 
     {
         write (1, str, ft_strlen(str));
         write (1, " \n", 2);
