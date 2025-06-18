@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     int total_read = 0;
     ssize_t bytes;
 
-    if (argc != 2 && argv[1][0] == '\0')
+    if (argc != 2 || argv[1][0] == '\0')
         return 1;
 
     while ((bytes = read(0, buffer, BUFFER_SIZE)) > 0)
