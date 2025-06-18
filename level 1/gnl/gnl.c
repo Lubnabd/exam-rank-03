@@ -134,12 +134,12 @@ char *set_line (char *buffer) // buffer is static
     if (!line)
         return (NULL);
 
-    /*j = 0;
+    j = 0;
     while ( j < i + 2)
     {
         line[j] = '\0';
         j++;
-    }*/
+    }
     i = 0;
     while (buffer[i] && buffer[i] != '\n')
     {
@@ -210,18 +210,16 @@ char *get_next_line(int fd) // it reads from fd
 int main(void)
 {
 	int fd = open("test.txt", O_RDONLY);
-	if (fd < 0)
-	{
-		perror("open");
-		return 1;
-	}
+    char *line = get_next_line(fd);
 
-	char *line;
-	while ((line = get_next_line(fd)) != NULL)
+    if (fd < 0)
+		return 1;
+
+	while (line)
 	{
 		printf("%s", line);
 		free(line);
+        line = get_next_line(fd);
 	}
 	close(fd);
-	return 0;
 }
