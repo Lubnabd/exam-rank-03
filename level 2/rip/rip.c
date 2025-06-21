@@ -78,6 +78,16 @@ int main (int argc, char **argv)
     int small = -1; //signal that we haven’t found any valid combination yet.
     if (argc == 2)
     {
+        int i = 0;
+        while (argv[1][i])
+        {
+            if (argv[1][i] != '(' && argv[1][i] != ')')
+            {
+                return 1;
+            }
+            i++;
+        }
+
         check_rip(argv[1], ft_strlen(argv[1]), 0, &small, 0);
         rip(argv[1], ft_strlen(argv[1]), 0, small, 0);
     }
