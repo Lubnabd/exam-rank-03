@@ -5,6 +5,8 @@
 int match_space(FILE *f)
 {
     int ch = fgetc(f);
+    if (cd == EOF && ferror(f)
+	    return -1;
     while( ch != EOF)
     {
         if (!isspace(ch))
@@ -14,7 +16,7 @@ int match_space(FILE *f)
         }
         ch = fgetc(f); // read the next character
     }
-    return 0;
+    return 1;
 }
 
 int match_char(FILE *f, char c)
@@ -24,7 +26,7 @@ int match_char(FILE *f, char c)
         return 1;
     if (ch != EOF)
         ungetc(ch, f);
-    return 0;
+    return -1;
 }
 
 int scan_char(FILE *f, va_list ap)
@@ -33,7 +35,7 @@ int scan_char(FILE *f, va_list ap)
     char *cp = va_arg(ap, char *);
 
     if (ch == EOF)
-        return 0; // failed to read
+        return -1; // failed to read
     *cp = (char)ch;
     return 1;
 }
@@ -46,7 +48,7 @@ int scan_int(FILE *f, va_list ap)
     int *ip = va_arg(ap, int *);
 
     if (ch == EOF)
-        return 0;
+        return -1;
     while (isspace(ch))
         ch = fgetc(f); 
     if (ch == '-')
@@ -60,7 +62,7 @@ int scan_int(FILE *f, va_list ap)
     if (!isdigit(ch))
     {
         ungetc(ch, f);
-        return 0;
+        return -1;
     }
     while (isdigit(ch))
     {
@@ -84,7 +86,7 @@ int scan_string(FILE *f, va_list ap)
     while (ch != EOF && isspace(ch))
         ch = fgetc(f);
     if (ch == EOF)
-        return 0;
+        return -1;
 
     do
     {
