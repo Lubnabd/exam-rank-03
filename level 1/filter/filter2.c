@@ -70,7 +70,8 @@ int main(int argc, char **argv)
         free(res);
         return (1);
     }
-
+    if (!res)
+        return 0;
     ft_filter(res, argv[1]);
     free(res);
     return (0);

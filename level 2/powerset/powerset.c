@@ -1,4 +1,5 @@
-#include "powerset.h"
+# include <stdio.h>
+# include <stdlib.h>
 
 void print_subset(int *subset, int size)
 {
@@ -33,10 +34,33 @@ void backtrack(int *set, int *subset, int size,int sub_size, int index, int curr
     // You're adding an element to the subset → sub_size increases
 }
 
+int check_args(int argc, char **argv)
+{
+    int i = 1;
+    while (i < argc)
+    {
+        int j = 0;
+        if (argv[i][j] == '+' || argv[i][j] == '-')
+            j++;
+        while (argv[i][j])
+        {
+            if (argv[i][j] < '0' || argv[i][j] > '9')
+                return 0;
+            j++;
+        }
+        i++;
+    }
+    return 1;
+}
+
 int main (int argc , char **argv)
 {
+    if (argc == 1)
+        return 1;
+    if (!check_args(argc, argv))
+        return 1;
     int set[argc - 2];
-    int subset[argc - 2];
+    int subset[argc - 2]; 
     int i = 0;
     int j = 2;
     int size = argc - 2;

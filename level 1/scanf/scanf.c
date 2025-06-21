@@ -5,8 +5,8 @@
 int match_space(FILE *f)
 {
     int ch = fgetc(f);
-    if (cd == EOF && ferror(f)
-	    return -1;
+    if (ch == EOF && ferror(f))
+        return -1;
     while( ch != EOF)
     {
         if (!isspace(ch))
@@ -146,7 +146,8 @@ int ft_vfscanf(FILE *f, const char *format, va_list ap)
 		}
 		else if (match_char(f, *format) != 1)
 			break;
-		format++;
+		format++;	
+		return 0;
 	}
 	if (ferror(f))
 		return (EOF);
@@ -168,8 +169,6 @@ int main(void)
     int x;
     char str[100];
     char str2[200];
-    ft_scanf("%d %s %s", &x, str, str2);
+    scanf("%d x %s %s", &x, str, str2);
     printf("%d %s %s\n", x, str, str2);
 }
-
-// 108

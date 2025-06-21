@@ -81,6 +81,8 @@ int main (int argc , char **argv)
 
     if (argc == 2)
     {
+        if (ft_strlen(argv[1]) == 0 || (argv[1][0] == ' ' && !argv[1][1]))
+            return (0);
         res = calloc(ft_strlen(argv[1]), 1);
         if (!res)
             return (1);
@@ -91,4 +93,3 @@ int main (int argc , char **argv)
     else
         return 1;
 }
-
