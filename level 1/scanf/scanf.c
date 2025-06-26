@@ -16,6 +16,8 @@ int match_space(FILE *f)
         }
         ch = fgetc(f); // read the next character
     }
+	 if (ferror(f))
+        return (-1);
     return 1;
 }
 
