@@ -153,8 +153,7 @@ int ft_vfscanf(FILE *f, const char *format, va_list ap)
 		}
 		else if (match_char(f, *format) != 1)
 			break;
-		format++;	
-		return 0;
+		format++;
 	}
 	if (ferror(f))
 		return (EOF);
