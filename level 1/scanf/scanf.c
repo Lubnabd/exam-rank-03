@@ -48,6 +48,7 @@ int scan_int(FILE *f, va_list ap)
     int value = 0;
     int ch = fgetc(f);
     int *ip = va_arg(ap, int *);
+    int count =0;
 
     if (ch == EOF)
         return -1;
@@ -75,6 +76,8 @@ int scan_int(FILE *f, va_list ap)
     if (ch != EOF)
         ungetc(ch, f);
 
+     if (count == 0)
+	return (-1);
     *ip = value * sign;
     return 1;
 }
@@ -96,10 +99,12 @@ int scan_string(FILE *f, va_list ap)
         i++;
         ch = fgetc(f);
     } while (ch != EOF && !isspace(ch));
+     sp[i] = '\0'; 
 
     if (ch != EOF)
         ungetc(ch, f);
-    sp[i] = '\0';
+     if (i == 0)
+	return (-1);
     return 1;
 }
 
