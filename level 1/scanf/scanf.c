@@ -121,7 +121,7 @@ int match_conv(FILE *f, const char **format, va_list ap)
 		case 's':
 			match_space(f);
 			return scan_string(f, ap);
-		case EOF:
+		case '\0':
 			return -1;
 		default:
 			return -1;
