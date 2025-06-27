@@ -1,5 +1,5 @@
 #include "permutations.h"
-
+// should i check args here?
 int ft_strlen(char *s)
 {
     int i = 0;
