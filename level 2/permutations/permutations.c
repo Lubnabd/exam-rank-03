@@ -88,6 +88,13 @@ int main (int argc , char **argv)
     {
         if (ft_strlen(argv[1]) == 0 || (argv[1][0] == ' ' && !argv[1][1]) || !ft_isalpha(argv[1][i]))
             return (0);
+        int i = 0;
+        while (argv[1][i])
+        {
+            if (!ft_isalpha(argv[1][i]))
+                return 0;
+            i++;
+        }
         res = calloc(ft_strlen(argv[1]), 1);
         if (!res)
             return (1);
