@@ -8,6 +8,11 @@ int ft_strlen(char *s)
     return i;
 }
 
+int ft_isalpha(int c)
+{
+    return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+
 void ft_swap(char *a, char *b)
 {
     char t;
@@ -81,7 +86,7 @@ int main (int argc , char **argv)
 
     if (argc == 2)
     {
-        if (ft_strlen(argv[1]) == 0 || (argv[1][0] == ' ' && !argv[1][1]))
+        if (ft_strlen(argv[1]) == 0 || (argv[1][0] == ' ' && !argv[1][1]) || !ft_isalpha(argv[1][i]))
             return (0);
         res = calloc(ft_strlen(argv[1]), 1);
         if (!res)
