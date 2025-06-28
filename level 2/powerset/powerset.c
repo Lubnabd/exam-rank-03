@@ -5,7 +5,10 @@ void print_subset(int *subset, int size)
 {
     int i = 0;
     if (size == 0)
+    {
+        printf("\n");
         return ;
+    }
     while (i < size)
     {
         if ( i == size - 1)
