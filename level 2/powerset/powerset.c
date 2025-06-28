@@ -55,8 +55,11 @@ int check_args(int argc, char **argv)
 
 int main (int argc , char **argv)
 {
-    if (argc == 1)
+    if (argc == 1 || argv[1][1] == 0)
+    {
+        printf("\n");
         return 1;
+    }
     if (!check_args(argc, argv))
         return 1;
     int set[argc - 2];
