@@ -20,11 +20,11 @@ void	solve(int size, int *board, int row)
 	{
 		for (int i = 0; i < size; i++)
 		{
-			printf("%d", board[i]);
+			fprintf(stdout, "%d", board[i]);
 			if (i < size - 1)
-				printf(" ");
+				fprintf(stdout , " ");
 		}
-		printf("\n");
+		fprintf(stdout, "\n");
 		return ;
 	}
 	while (col < size)
