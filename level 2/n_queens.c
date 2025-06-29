@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 	int size = atoi(argv[1]);
 	int *board;
 
-	if (argc != 2 || size = < 1)
+	if (argc != 2 || size <= 0)
 		return 1;
 	
 	board = calloc(size, sizeof(int));
