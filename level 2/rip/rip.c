@@ -77,7 +77,10 @@ int main (int argc, char **argv)
 {
     int small = -1; //signal that we haven’t found any valid combination yet.
     if (argv[1][0] == '\0')
+    {
+        write (1, "\n", 1);
         return 1;
+    }
     if (argc == 2)
     {
         int i = 0;
