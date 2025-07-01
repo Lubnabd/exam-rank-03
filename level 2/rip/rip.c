@@ -40,7 +40,7 @@ void check_rip(char *str, int n, int i, int *small, int lvl)
     while (i < n)
     {
         tmp = str[i];
-        str[i] = '_';
+        str[i] = ' ';
         lvl++;
         check_rip(str, n , i + 1, small, lvl);
         str[i] = tmp;
@@ -58,13 +58,13 @@ void rip(char *str, int n, int i, int small, int lvl)
     if (good_closed(str, n) && lvl == small) 
     {
         write (1, str, ft_strlen(str));
-        write (1, " \n", 2);
+        write (1, "\n", 1);
         return ;
     }
     while ( i < n)
     {
         tmp = str[i];
-        str[i] = '_';
+        str[i] = ' ';
         lvl++;
         rip(str, n, i + 1, small, lvl);
         str[i] = tmp;
