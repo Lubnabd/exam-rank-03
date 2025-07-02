@@ -1,6 +1,5 @@
-# include <stdio.h>
-# include <stdlib.h>
-// should handle to return newline in case of '((ab))' or ' ' ??
+#include "powerset.h"
+
 void print_subset(int *subset, int size)
 {
     int i = 0;
