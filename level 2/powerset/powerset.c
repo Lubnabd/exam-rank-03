@@ -5,10 +5,7 @@ void print_subset(int *subset, int size)
 {
     int i = 0;
     if (size == 0)
-    {
-        printf("\n");
         return ;
-    }
     while (i < size)
     {
         if ( i == size - 1)
@@ -58,13 +55,21 @@ int check_args(int argc, char **argv)
 
 int main (int argc , char **argv)
 {
-    if (argc == 1 || argv[1][0] == 0)
+     if (argc == 1 || argv[1][0] == '0')
+    {
+        printf("\n"); 
+        return 0;
+    }
+
+    if (argv[1][0] == ' ' || argv[1][0] == '\0')
     {
         printf("\n");
-        return 1;
+        return 0;
     }
+
     if (!check_args(argc, argv))
         return 1;
+
     int set[argc - 2];
     int subset[argc - 2]; 
     int i = 0;
