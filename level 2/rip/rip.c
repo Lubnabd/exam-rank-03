@@ -76,6 +76,10 @@ void rip(char *str, int n, int i, int small, int lvl)
 int main (int argc, char **argv)
 {
     int small = -1; //signal that we haven’t found any valid combination yet.
+
+    if (argc != 2 || argv[1][0] == 0) /////
+        return 1;
+    
     if (argv[1][0] == '\0')
     {
         write (1, "\n", 1);
