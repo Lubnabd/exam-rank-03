@@ -38,20 +38,22 @@ void	solve(int size, int *board, int row)
 	}
 }
 
-int main(int argc, char **argv)
+int main (int argc , char **argv)
 {
-	int size = atoi(argv[1]);
-	int *board;
+    if (argc != 2) /////
+        return 1;
 
-	if (argc != 2 || size <= 0)
-		return 1;
-	
-	board = calloc(size, sizeof(int));
-	if (!board)
-		return 1;
-	solve(size, board, 0);
-	free(board);
-	return 0;
+    int *board;
+    int size =  atoi (argv[1]);
+
+    if (size <= 0)
+        return 1;
+
+        board = calloc (size , sizeof(int)); /// 
+        if (!board)
+            return 1;
+        solve(size, board, 0);
+        free(board);
 }
 
 // ./a.out 29
