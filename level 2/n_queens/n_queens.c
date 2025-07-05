@@ -56,4 +56,3 @@ int main (int argc , char **argv)
         free(board);
 }
 
-// ./a.out 29
